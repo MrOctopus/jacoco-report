@@ -169,6 +169,7 @@ async function getChangedFiles(
     const changedFile: ChangedFile = {
       filePath: file.filename,
       url: file.blob_url,
+      status: file.status,
       lines: getChangedLines(file.patch),
     }
     changedFiles.push(changedFile)

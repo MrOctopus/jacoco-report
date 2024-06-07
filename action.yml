@@ -29,7 +29,7 @@ inputs:
   pass-emoji:
     description: 'Github emoji to use for pass status shown when coverage greater than min coverage (should be a Github supported emoji)'
     required: false
-    default: ':green_apple:'
+    default: ':heavy_check_mark:'
   fail-emoji:
     description: 'Github emoji to use for fail status shown when coverage lesser than min coverage (should be a Github supported emoji)'
     required: false

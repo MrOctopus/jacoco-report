@@ -143,12 +143,16 @@ function getFileCoverageFromPackages(
             })
           }
         }
-        const changedMissed = lines
-          .map(line => toFloat(line.instruction.missed))
-          .reduce(sumReducer, 0.0)
-        const changedCovered = lines
-          .map(line => toFloat(line.instruction.covered))
-          .reduce(sumReducer, 0.0)
+
+        // NOTE:
+        // Fixes https://github.com/Madrapps/jacoco-report/issues/79
+        let changedMissed = 0;
+        let changedCovered = 0;
+        if (githubFile.status != "added") {
+          changedMissed = lines.map(line => toFloat(line.instruction.missed)).reduce(sumReducer, 0.0)
+          changedCovered = lines.map(line => toFloat(line.instruction.covered)).reduce(sumReducer, 0.0)
+        }
+
         resultFiles.push({
           name,
           url: githubFile.url,
