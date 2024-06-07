@@ -9,13 +9,13 @@ inputs:
     required: false
     default: ${{ github.token }}
   base-sha:
-    description: "Override commit base-sha instead of using automatic detection. Must be set along with head-sha"
+    description: 'Override commit base-sha instead of using automatic detection. Must be set along with head-sha'
     required: false
   head-sha:
-    description: "Override commit head-sha instead of using automatic detection. Must be set along with base-sha"
+    description: 'Override commit head-sha instead of using automatic detection. Must be set along with base-sha'
     required: false
   pr-number:
-    description: "Override pr number for issue posting"
+    description: 'Override pr number for issue posting'
     required: false
   min-coverage-overall:
     description: 'The minimum code coverage that is required to pass for overall project'
