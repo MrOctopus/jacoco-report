@@ -143,21 +143,19 @@ function getOverallTable(
   const tableHeader = `|Overall Project|${coveragePercentage}|${overallStatus}|`
   const tableStructure = '|:-|:-|:-:|'
 
-  const missedLines = project.changed.missed
-  const coveredLines = project.changed.covered
-  const totalChangedLines = missedLines + coveredLines
+  // NOTE:
+  // Fixes https://github.com/Madrapps/jacoco-report/issues/71
   let changedCoverageRow = ''
-  if (totalChangedLines !== 0) {
-    const changedLinesPercentage = (coveredLines / totalChangedLines) * 100
+  if ((project.changed.missed + project.changed.covered) !== 0) {
     const filesChangedStatus = getStatus(
-      changedLinesPercentage,
+      project['coverage-changed-files'],
       minCoverage.changed,
       emoji
     )
     changedCoverageRow =
       '\n' +
       `|Files changed|${formatCoverage(
-        changedLinesPercentage
+        project['coverage-changed-files']
       )}|${filesChangedStatus}|` +
       '\n<br>'
   }
