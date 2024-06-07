@@ -166,7 +166,12 @@ function round(value: number): number {
   return Math.round((value + Number.EPSILON) * 100) / 100
 }
 
-function shouldShow(value: number): boolean {
+// NOTE:
+// Fixes https://github.com/Madrapps/jacoco-report/issues/91
+function shouldShow(value: number | undefined): boolean {
+  if (value === undefined) {
+    return false
+  }
   const rounded = Math.abs(round(value))
   return rounded !== 0 && rounded !== 100
 }
@@ -180,11 +185,17 @@ export function getTitle(title?: string): string {
   }
 }
 
+// NOTE:
+// Fixes https://github.com/Madrapps/jacoco-report/issues/91
 function getStatus(
-  coverage: number | undefined,
+  coverage: number | undefined | null,
   minCoverage: number,
   emoji: Emoji
 ): string {
+  if (coverage === undefined) {
+    return '';
+  }
+  
   let status = emoji.pass
   if (coverage != null && coverage < minCoverage) {
     status = emoji.fail
