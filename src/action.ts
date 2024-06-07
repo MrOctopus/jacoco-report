@@ -53,25 +53,43 @@ export async function action(): Promise<void> {
       core.info(`failEmoji: ${failEmoji}`)
     }
 
-    let base: string
-    let head: string
+    // NOTE:
+    // Fixes https://github.com/Madrapps/jacoco-report/issues/34
+    let base: string = core.getInput('base-sha')
+    let head: string = core.getInput('head-sha')
     let prNumber: number | undefined
-    switch (event) {
-      case 'pull_request':
-      case 'pull_request_target':
-        base = github.context.payload.pull_request?.base.sha
-        head = github.context.payload.pull_request?.head.sha
-        prNumber = github.context.payload.pull_request?.number
-        break
-      case 'push':
-        base = github.context.payload.before
-        head = github.context.payload.after
-        break
-      default:
+
+    if (base || head) {
+      if (!base && !head) {
         core.setFailed(
-          `Only pull requests and pushes are supported, ${github.context.eventName} not supported.`
+          `When overriding either base-sha or head-sha, both values must be set.`
         )
         return
+      }
+    } 
+    else {
+      switch (event) {
+        case 'pull_request':
+        case 'pull_request_target':
+          base = github.context.payload.pull_request?.base.sha
+          head = github.context.payload.pull_request?.head.sha
+          prNumber = github.context.payload.pull_request?.number
+          break
+        case 'push':
+          base = github.context.payload.before
+          head = github.context.payload.after
+          break
+        default:
+          core.setFailed(
+            `Only pull requests and pushes are supported with automatic detection, ${github.context.eventName} not supported.`
+          )
+          return
+      }
+    }
+
+    const overridePrNumber = core.getInput('pr-number')
+    if (overridePrNumber) {
+      prNumber = parseInt(overridePrNumber)
     }
 
     core.info(`base sha: ${base}`)
