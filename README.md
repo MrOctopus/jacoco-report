@@ -1,6 +1,6 @@
 # jacoco-report
 
-[![Tests](https://github.com/Madrapps/jacoco-report/actions/workflows/check.yml/badge.svg)](https://github.com/Madrapps/jacoco-report/actions/workflows/check.yml)
+[![Tests](https://github.com/MrOctopus/jacoco-report/actions/workflows/check.yml/badge.svg)](https://github.com/Madrapps/jacoco-report/actions/workflows/check.yml)
 
 A Github action that publishes the JaCoCo report as a comment in the Pull Request with customizable pass percentage for
 modified modules, files and the overall project. You can view the coverage of just the changed files in your pull request.
@@ -28,7 +28,7 @@ for [Creating a workflow file](https://help.github.com/en/articles/configuring-a
 - `title` - [*optional*] Title for the Pull Request comment
 - `skip-if-no-changes` - [*optional* {default: false}] If true, comment won't be added if there is no coverage information present for
   the files changed
-- `pass-emoji` - [*optional* {default: :green_apple:}] Emoji to use for pass status shown when 'coverage >= min coverage' (should be a Github supported emoji).
+- `pass-emoji` - [*optional* {default: :heavy_check_mark:}] Emoji to use for pass status shown when 'coverage >= min coverage' (should be a Github supported emoji).
 - `fail-emoji` - [*optional* {default: :x:}] Emoji to use for fail status shown when 'coverage < min coverage' (should be a Github supported emoji).
 - `continue-on-error` - [*optional* {default: true}] If true, then do not fail the action on error, but log a warning
 - `summary-mode` - [*optional* {default: false}] If true, report the result to workflow summary
@@ -53,7 +53,7 @@ jobs:
     permissions:
       pull-requests: write
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Set up JDK 1.8
         uses: actions/setup-java@v1
         with:
@@ -65,12 +65,11 @@ jobs:
 
       - name: Add coverage to PR
         id: jacoco
-        uses: madrapps/jacoco-report@v1.6.1
+        uses: mroctopus/jacoco-report@v2.0.0
         with:
           paths: |
             ${{ github.workspace }}/**/build/reports/jacoco/prodNormalDebugCoverage/prodNormalDebugCoverage.xml,
             ${{ github.workspace }}/**/build/reports/jacoco/**/debugCoverage.xml
-          token: ${{ secrets.GITHUB_TOKEN }}
           min-coverage-overall: 40
           min-coverage-changed-files: 60
 ```
@@ -115,10 +114,9 @@ refer [jacoco-android-playground](https://github.com/thsaravana/jacoco-android-p
    ```yaml
    - name: Jacoco Report to PR
      id: jacoco
-     uses: madrapps/jacoco-report@v1.6.1
+     uses: mroctopus/jacoco-report@v2.0.0
      with:
        paths: ${{ github.workspace }}/build/reports/jacoco/testCoverage/testCoverage.xml
-       token: ${{ secrets.GITHUB_TOKEN }}
        min-coverage-overall: 40
        min-coverage-changed-files: 60
        title: Code Coverage
@@ -136,12 +134,11 @@ refer [jacoco-android-playground](https://github.com/thsaravana/jacoco-android-p
    ```yaml
    - name: Jacoco Report to PR
      id: jacoco
-     uses: madrapps/jacoco-report@v1.6.1
+     uses: mroctopus/jacoco-report@v2.0.0
      with:
        paths: |
          ${{ github.workspace }}/**/build/reports/jacoco/**/prodNormalDebugCoverage.xml,
          ${{ github.workspace }}/**/build/reports/jacoco/**/debugCoverage.xml
-       token: ${{ secrets.GITHUB_TOKEN }}
        min-coverage-overall: 40
        min-coverage-changed-files: 60
    ```
@@ -156,22 +153,15 @@ refer [jacoco-android-playground](https://github.com/thsaravana/jacoco-android-p
    ```yaml
    - name: Jacoco Report to PR
      id: jacoco
-     uses: madrapps/jacoco-report@v1.6.1
+     uses: mroctopus/jacoco-report@v2.0.0
      with:
        paths: ${{ github.workspace }}/build/reports/jacoco/testCoverage/testCoverage.xml
-       token: ${{ secrets.GITHUB_TOKEN }}
        min-coverage-overall: 40
        min-coverage-changed-files: 60
        title: '# :lobster: Coverage Report'
        pass-emoji: ':green_circle:'
        fail-emoji: ':red_circle:'
    ```
-
-## Troubleshooting
-
-1. If the PR is created by bots like _dependabot_, then the GITHUB_TOKEN won't have sufficient access to write the
-   coverage comment. So add the appropriate permission to your job (as shown in the Example workflow). More information
-   [here](https://github.com/Madrapps/jacoco-report/issues/24).
 
 ## Contributing
 
