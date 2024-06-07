@@ -65,7 +65,7 @@ jobs:
 
       - name: Add coverage to PR
         id: jacoco
-        uses: mroctopus/jacoco-report@v2.0.0
+        uses: mroctopus/jacoco-report@v2
         with:
           paths: |
             ${{ github.workspace }}/**/build/reports/jacoco/prodNormalDebugCoverage/prodNormalDebugCoverage.xml,
@@ -114,7 +114,7 @@ refer [jacoco-android-playground](https://github.com/thsaravana/jacoco-android-p
    ```yaml
    - name: Jacoco Report to PR
      id: jacoco
-     uses: mroctopus/jacoco-report@v2.0.0
+     uses: mroctopus/jacoco-report@v2
      with:
        paths: ${{ github.workspace }}/build/reports/jacoco/testCoverage/testCoverage.xml
        min-coverage-overall: 40
@@ -134,7 +134,7 @@ refer [jacoco-android-playground](https://github.com/thsaravana/jacoco-android-p
    ```yaml
    - name: Jacoco Report to PR
      id: jacoco
-     uses: mroctopus/jacoco-report@v2.0.0
+     uses: mroctopus/jacoco-report@v2
      with:
        paths: |
          ${{ github.workspace }}/**/build/reports/jacoco/**/prodNormalDebugCoverage.xml,
@@ -153,7 +153,7 @@ refer [jacoco-android-playground](https://github.com/thsaravana/jacoco-android-p
    ```yaml
    - name: Jacoco Report to PR
      id: jacoco
-     uses: mroctopus/jacoco-report@v2.0.0
+     uses: mroctopus/jacoco-report@v2
      with:
        paths: ${{ github.workspace }}/build/reports/jacoco/testCoverage/testCoverage.xml
        min-coverage-overall: 40
